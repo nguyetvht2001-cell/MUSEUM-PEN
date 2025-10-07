@@ -3,21 +3,136 @@
 <head>
   <meta charset="UTF-8">
   <title>Bảo tàng Bút bi</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="scripts.js" defer></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      color: white;
+      text-align: center;
+      background: radial-gradient(circle at center, #1a1a2e, #0f3460);
+      height: 100vh;
+      overflow: hidden;
+    }
+    h1 {
+      padding: 20px;
+      font-size: 2.5em;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    }
+    model-viewer {
+      width: 80%;
+      height: 60vh;
+      margin: auto;
+      display: block;
+      background-color: transparent;
+    }
+    .controls {
+      margin-top: 20px;
+    }
+    button {
+      background: #e94560;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
+    }
+    button:hover {
+      background: #ff6363;
+    }
+    .subtitle {
+      margin-top: 15px;
+      font-style: italic;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Bảo tàng Bút bi</h1>
-    <model-viewer src="butbi.glb" alt="Bảo tàng Bút bi" camera-controls auto-rotate></model-viewer>
-    
-    <div class="audio-section">
-      <button onclick="playAudio()">Nghe thuyết minh</button>
-      <p id="subtitle">Bấm để nghe thuyết minh...</p>
-      <audio id="audio" src="butbi.mp3" preload="auto"></audio>
-    </div>
-  </div>
+  <h1>🚲 Bảo tàng Bút bi</h1>
 
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<div style="display: flex; gap: 20px; justify-content: center;">
+  <!-- Mô hình 3D 1 -->
+  <model-viewer src="pen1.glb" alt="Bút bi 1" 
+    style="width: 300px; height: 300px;"
+    camera-controls auto-rotate 
+    exposure="1" shadow-intensity="1" 
+    ar ar-modes="webxr scene-viewer quick-look">
+  </model-viewer>
+
+  <!-- Mô hình 3D 2 -->
+  <model-viewer src="pen2.glb" alt="Bút bi 2" 
+    style="width: 300px; height: 300px;"
+    camera-controls auto-rotate 
+    exposure="1" shadow-intensity="1" 
+    ar ar-modes="webxr scene-viewer quick-look">
+  </model-viewer>
+
+  <!-- Mô hình 3D 3 -->
+  <model-viewer src="pen3.glb" alt="Bút bi 3" 
+    style="width: 300px; height: 300px;"
+    camera-controls auto-rotate 
+    exposure="1" shadow-intensity="1" 
+    ar ar-modes="webxr scene-viewer quick-look">
+  </model-viewer>
+</div>
+  
+<!-- Điều khiển âm thanh -->
+<div class="controls" style="text-align: center; margin-top: 20px;">
+  <button onclick="toggleAudio()">▶️ Phát / ⏸️ Dừng</button>
+  <br><br>
+  <!-- Thanh kéo tua -->
+  <input type="range" id="seekBar" value="0" step="1" min="0" max="100" style="width: 80%;">
+  <p class="subtitle" id="subtitle">Ấn nút để nghe thuyết minh...</p>
+</div>
+
+<audio id="audio" src="pen.mp3"></audio>
+
+<script>
+  const audio = document.getElementById("audio");
+  const seekBar = document.getElementById("seekBar");
+  const subtitle = document.getElementById("subtitle");
+
+  // Hàm phát / dừng
+  function toggleAudio() {
+    if (audio.paused) {
+      audio.play();
+      subtitle.innerText = "Đang phát thuyết minh...";
+    } else {
+      audio.pause();
+      subtitle.innerText = "Đã tạm dừng.";
+    }
+  }
+
+  // Cập nhật thanh kéo khi nhạc chạy
+  audio.addEventListener("timeupdate", () => {
+    let value = (audio.currentTime / audio.duration) * 100;
+    seekBar.value = value;
+  });
+
+  // Tua khi kéo thanh
+  seekBar.addEventListener("input", () => {
+    let time = (seekBar.value / 100) * audio.duration;
+    audio.currentTime = time;
+  });
+
+  // Khi kết thúc
+  audio.addEventListener("ended", () => {
+    subtitle.innerText = "Thuyết minh đã kết thúc.";
+  });
+</script>
+
+  <script>
+    const audio = document.getElementById("audio");
+    const subtitle = document.getElementById("subtitle");
+
+    function playAudio() {
+      audio.play();
+      subtitle.innerText = "“Xin chào các em! Chúng ta hãy cùng bắt đầu chuyến tham quan ở phòng Bút bi...”";
+    }
+  </script>
 </body>
 </html>
