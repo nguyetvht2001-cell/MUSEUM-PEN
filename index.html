@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Bảo tàng Bút bi</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="scripts.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Bảo tàng Bút bi</h1>
+    <model-viewer src="butbi.glb" alt="Bảo tàng Bút bi" camera-controls auto-rotate></model-viewer>
+    
+    <div class="audio-section">
+      <button onclick="playAudio()">Nghe thuyết minh</button>
+      <p id="subtitle">Bấm để nghe thuyết minh...</p>
+      <audio id="audio" src="butbi.mp3" preload="auto"></audio>
+    </div>
+  </div>
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</body>
+</html>
